@@ -1,7 +1,7 @@
-Mobile Text, Audio and Video charts based on WebRTC, Firebase and Ionic 2
+Mobile Text, Audio and Video chat based on WebRTC, Firebase and Ionic 2
 ============================== 
 
-There is a simple mobile, audio and video chart application based on:
+There is a simple mobile, audio and video chat application based on:
 - WebRTC 
 - [Angular Firebase 2](https://github.com/angular/angularfire2)
 - [Angular 2](https://angular.io) 
