@@ -1,0 +1,38 @@
+{
+  "dependencies": {
+    "angular2": "2.0.0-beta.7",
+    "angularfire2": "^2.0.0-alpha.13",
+    "es6-promise": "3.0.2",
+    "es6-shim": "0.33.13",
+    "firebase": "^2.4.1",
+    "ionic-angular": "2.0.0-beta.3",
+    "ionic-native": "^1.1.0",
+    "ionicons": "3.0.0-alpha.3",
+    "reflect-metadata": "0.1.2",
+    "rxjs": "5.0.0-beta.2",
+    "zone.js": "0.5.15"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "0.15.10",
+    "del": "2.2.0",
+    "gulp": "3.9.1",
+    "gulp-watch": "4.3.5",
+    "ionic-gulp-fonts-copy": "^1.0.0",
+    "ionic-gulp-html-copy": "^1.0.0",
+    "ionic-gulp-sass-build": "^1.0.0",
+    "ionic-gulp-webpack-build": "^1.0.0",
+    "strip-sourcemap-loader": "0.0.1",
+    "typescript": "1.8.7"
+  },
+  "name": "ionic2-firebase-sample",
+  "description": "ionic2-firebase-sample: An Ionic project",
+  "cordovaPlugins": [
+    "cordova-plugin-device",
+    "cordova-plugin-console",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "ionic-plugin-keyboard"
+  ],
+  "cordovaPlatforms": []
+}
