@@ -1,42 +1,35 @@
-import {Page, Platform} from 'ionic-angular';
-import {OnInit} from 'angular2/core';
+import {Page, Modal, NavController} from 'ionic-angular';
 import {FORM_DIRECTIVES} from 'angular2/common';
 
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
 import {Observable} from 'rxjs/Observable';
 
 import {AuthService} from '../../common/auth.service';
+import {LoginPage} from '../login/login';
 
 @Page({
   templateUrl: 'build/pages/chat/chat.html'
 })
-export class ChatPage implements OnInit {
+export class ChatPage {
 
     username:string = '';
     users: FirebaseListObservable<any[]>;
 
-    constructor(private platform: Platform, private af: AngularFire, private auth: AuthService){
+    constructor(private af: AngularFire, private auth: AuthService, private nav:NavController){
         this.users = this.af.list('/users');
     }
 
-    ngOnInit(): any {
+    onPageWillEnter() {
         this.auth.getUsername().then((value: string) => {
             this.username = value;
         }, (error) => {
             console.log(error);
+            let loginPage: Modal = Modal.create(LoginPage);
+            loginPage.onDismiss((value: string) => {
+                this.username = value;
+                this.auth.setUsername(value);
+            });
+            this.nav.present(loginPage);
         });
     }
-
-    // join(task : HTMLInputElement): void {
-
-    //     console.log(`Adding user to users in chat room: ${task.value} `);
-    //     this.users.add(task.value);
-    // }
-
-    // leave(id){
-    //     this.users.remove(id);
-    // }
-
-
-
 }
