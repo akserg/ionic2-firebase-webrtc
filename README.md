@@ -5,7 +5,8 @@ There is a simple mobile, audio and video chat application based on:
 - WebRTC 
 - [Angular Firebase 2](https://github.com/angular/angularfire2)
 - [Angular 2](https://angular.io) 
-to demonstrate how combine them together inside [Ionic 2](http://ionic.io/2) project. 
+
+to demonstrate how to combine them together inside the [Ionic 2](http://ionic.io/2) project. 
 
 ### Prerequisite
 
