@@ -1,0 +1,19 @@
+<ion-navbar *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Authentication</ion-title>
+</ion-navbar>
+
+<ion-content padding has-header>
+  <div class="list">
+    <label class="item item-input">
+      <span class="input-label">Name</span>
+      <input type="text" [(ngModel)]="username">
+    </label>
+  </div>
+
+  <button block (click)="login()">
+    Login
+  </button>
+</ion-content>

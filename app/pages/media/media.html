@@ -1,0 +1,19 @@
+<ion-navbar *navbar>
+    <button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Peer connecton</ion-title>
+</ion-navbar>
+
+<ion-content class="has-header has-footer padding content-stable">
+
+</ion-content>
+
+<form [ngFormModel]="messageForm" (ngSubmit)="sendMessage(messageForm.value)">
+<ion-toolbar position="bottom">
+    <ion-textarea placeholder="Type your message here" ngControl="message"></ion-textarea>
+    <ion-buttons end>
+        <button type="submit" royal>Send<ion-icon name="send"></ion-icon></button>
+    </ion-buttons>
+</ion-toolbar>
+</form>
