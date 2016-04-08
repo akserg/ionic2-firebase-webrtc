@@ -1,33 +1,14 @@
 <ion-navbar *navbar>
-  <ion-title>
-    Home
-  </ion-title>
+    <ion-title>
+        Authentication
+    </ion-title>
 </ion-navbar>
 
-<ion-content class="home">
-  <ion-card>
-    <ion-card-header>
-      Add task
-    </ion-card-header>
-    <ion-card-content>
-        <ion-item>
-            <ion-input type="text" value="" #newTask></ion-input>
-        </ion-item>
-        
-        <ion-item>
-            <button (click)="addTask(newTask)" block>
-                Add
-            </button>
-        </ion-item>
-    </ion-card-content>
-  </ion-card>
-  
-  
-  <ion-list>
-    <ion-item *ngFor="#item of tasks | async" >
-        <p>{{ item.$value }}</p>
-        <button item-right (click)="removeTask( item.$key )">Remove</button>
-    </ion-item>
-    </ion-list>
-  
+<ion-content class="home" has-header="true" padding="true">
+    <div class="row row-center">
+      <div class="col col-center">
+        <ion-label>Awaiting authentication</ion-label>
+        <ion-spinner></ion-spinner>
+      </div>
+    </div>
 </ion-content>

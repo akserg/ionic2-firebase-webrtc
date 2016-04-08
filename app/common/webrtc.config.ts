@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 
 @Injectable()
-export class Config {
+export class WebRTCConfig {
 
     peerServerPort: number = 9000;
 

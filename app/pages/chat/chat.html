@@ -8,7 +8,7 @@
 <ion-content padding has-header>
     <ion-card>
         <ion-card-header>
-            Video chat of {{username}}
+            Logged as {{user.displayName}}
         </ion-card-header>
 
         <ion-card-content>
@@ -18,12 +18,10 @@
 
     <ion-list>
         <ion-item>
-            <ion-label>Contact to</ion-label>
+            <ion-label>Call to</ion-label>
             <ion-input [(ngModel)]="otherUsername"></ion-input>
         </ion-item>
     </ion-list>
 
-    <button block (click)="startCall()">
-    Call
-    </button>
+    <button block (click)="startCall()" [disabled]="!otherUsername.length">Call</button>
 </ion-content>

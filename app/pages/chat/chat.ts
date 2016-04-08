@@ -1,35 +1,24 @@
 import {Page, Modal, NavController} from 'ionic-angular';
+import {Inject} from 'angular2/core';
 import {FORM_DIRECTIVES} from 'angular2/common';
 
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
-import {Observable} from 'rxjs/Observable';
-
-import {AuthService} from '../../common/auth.service';
-import {LoginPage} from '../login/login';
+import {UserService} from '../../common/user.service';
+import {User, AuthService} from '../../common/auth.service';
 
 @Page({
   templateUrl: 'build/pages/chat/chat.html'
 })
 export class ChatPage {
 
-    username:string = '';
-    users: FirebaseListObservable<any[]>;
+    user:User = {};
+    otherUsername: string = '';
 
-    constructor(private af: AngularFire, private auth: AuthService, private nav:NavController){
-        this.users = this.af.list('/users');
+    constructor(private userService:UserService, private authService:AuthService) {
+        this.user = authService.user;
     }
 
-    onPageWillEnter() {
-        this.auth.getUsername().then((value: string) => {
-            this.username = value;
-        }, (error) => {
-            console.log(error);
-            let loginPage: Modal = Modal.create(LoginPage);
-            loginPage.onDismiss((value: string) => {
-                this.username = value;
-                this.auth.setUsername(value);
-            });
-            this.nav.present(loginPage);
-        });
+
+    startCall() {
+        console.log('Call to ', this.otherUsername);
     }
 }

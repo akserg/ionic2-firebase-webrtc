@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter} from 'angular2/core';
 
-import {Config} from './config';
+import {WebRTCConfig} from './webrtc.config';
 
 @Injectable()
 export class WebRTCService {
@@ -9,7 +9,7 @@ export class WebRTCService {
     data: EventEmitter<any> = new EventEmitter<any>();
     userId: string = '1';
 
-    constructor(private config: Config) {}
+    constructor(private config: WebRTCConfig) {}
 
     /**
      * Create the Peer with User Id and PeerJSOption
