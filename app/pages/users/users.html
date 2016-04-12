@@ -1,0 +1,9 @@
+<ion-navbar *navbar>
+    <ion-title>Online Users</ion-title>
+</ion-navbar>
+
+<ion-content class="has-header has-footer padding content-stable">
+    <ion-list>
+        <ion-item *ngFor="#user of users | async" (click)="chooseUser(user)">{{user.$value}}</ion-item>
+    </ion-list>
+</ion-content>

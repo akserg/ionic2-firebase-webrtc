@@ -7,21 +7,16 @@
 
 <ion-content padding has-header>
     <ion-card>
-        <ion-card-header>
-            Logged as {{user.displayName}}
-        </ion-card-header>
-
         <ion-card-content>
             <video id="contact-video" autoplay></video>
         </ion-card-content>
     </ion-card>
 
     <ion-list>
-        <ion-item>
-            <ion-label>Call to</ion-label>
-            <ion-input [(ngModel)]="otherUsername"></ion-input>
+        <ion-item (click)="changeOtherUser()">
+            <ion-label>{{getOtherUserName()}}</ion-label>
         </ion-item>
     </ion-list>
 
-    <button block (click)="startCall()" [disabled]="!otherUsername.length">Call</button>
+    <button block (click)="startCall()" [disabled]="!otherUser.notEmpty()">Call</button>
 </ion-content>
