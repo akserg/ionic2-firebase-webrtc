@@ -39,5 +39,6 @@ export class ChatPage {
 
     startCall() {
         console.log('Call to ', this.otherUser.id);
+        this.webRTCService.
     }
 }
