@@ -54,7 +54,7 @@ export class MyApp {
     }
 
     private _afterLogin(webRTC: WebRTCService, userId: string) {
-        // Configure WebRTCConfig
+        // Create Peer
         webRTC.createPeer(userId);
         // Now change the rootPage to tabs
         this.rootPage = TabsPage;

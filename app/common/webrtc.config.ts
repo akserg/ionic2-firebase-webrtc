@@ -8,17 +8,17 @@ export class WebRTCConfig {
     key:string = 'whbzng0p4kq8semi';
 
     stun: string = 'stun.l.google.com:19302';
-    turn: string = 'homeo@turn.bistri.com:80';
-    turnCredentials: string = 'homeo';
+    // turn: string = 'homeo@turn.bistri.com:80';
+    // turnCredentials: string = 'homeo';
 
     stunServer:RTCIceServer = {
         urls: 'stun:' + this.stun
     };
 
-    turnServer: RTCIceServer = {
-        urls: 'turn:' + this.turn,
-        credential: this.turnCredentials
-    };
+    // turnServer: RTCIceServer = {
+    //     urls: 'turn:' + this.turn,
+    //     credential: this.turnCredentials
+    // };
 
     getPeerJSOption(): PeerJs.PeerJSOption {
         return {
@@ -27,13 +27,15 @@ export class WebRTCConfig {
 
             // Set highest debug level (log everything!).
             debug: 3,
-
-            secure: true,
+            // Set it to false because of:
+            // > PeerJS:  ERROR Error: The cloud server currently does not support HTTPS. 
+            // > Please run your own PeerServer to use HTTPS.
+            secure: false,
 
             config: {
                 iceServers: [
-                    this.stunServer,
-                    this.turnServer
+                    this.stunServer/*,
+                    this.turnServer*/
                 ]
             }
         };

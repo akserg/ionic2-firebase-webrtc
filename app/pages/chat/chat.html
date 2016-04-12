@@ -8,15 +8,17 @@
 <ion-content padding has-header>
     <ion-card>
         <ion-card-content>
-            <video id="contact-video" autoplay></video>
+            <video id="my-video" muted="true" autoplay></video>
+            <video id="other-video" autoplay></video>
         </ion-card-content>
     </ion-card>
 
     <ion-list>
-        <ion-item (click)="changeOtherUser()">
+        <ion-item (click)="chooseOtherUser()">
             <ion-label>{{getOtherUserName()}}</ion-label>
         </ion-item>
     </ion-list>
 
-    <button block (click)="startCall()" [disabled]="!otherUser.notEmpty()">Call</button>
+    <button block (click)="startCall()">Call</button>
+    <button block (click)="stopCall()">Drop</button>
 </ion-content>

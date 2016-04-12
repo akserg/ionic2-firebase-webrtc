@@ -2,90 +2,111 @@ import {Injectable, EventEmitter} from 'angular2/core';
 
 import {WebRTCConfig} from './webrtc.config';
 
+
 @Injectable()
 export class WebRTCService {
-    peer: PeerJs.Peer;
-    conn: PeerJs.DataConnection;
-    data: EventEmitter<any> = new EventEmitter<any>();
-    userId: string = '1';
 
-    constructor(private config: WebRTCConfig) {}
+    private _peer: PeerJs.Peer;
+    private _localStream: any;
+    private _existingCall: any;
+    
+    myEl: HTMLMediaElement;
+    otherEl: HTMLMediaElement;
+    onCalling: Function;
+
+    constructor(private config: WebRTCConfig) {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    }
 
     /**
      * Create the Peer with User Id and PeerJSOption
      */
     createPeer(userId: string) {
-        // Get our id come from Firebase
-        this.userId = userId;
         // Create the Peer object where we create and receive connections.
-        this.peer = new Peer(this.userId, this.config.getPeerJSOption());
+        this._peer = new Peer(userId, this.config.getPeerJSOption());
+    }
+    
+    init(myEl: HTMLMediaElement, otherEl: HTMLMediaElement, onCalling: Function) {
+        this.myEl = myEl;
+        this.otherEl = otherEl;
+        this.onCalling = onCalling;
+        
+        // Receiving a call
+        this._peer.on('call', (call) => {
+            // Answer the call automatically (instead of prompting user) for demo purposes
+            call.answer(this._localStream);
+            this._step3(call);
+        });
+        this._peer.on('error', (err) => {
+            console.log(err.message);
+            // Return to step 2 if error occurs
+            if (this.onCalling) {
+                this.onCalling();
+            }
+            // this._step2();
+        });
+    
+        this._step1();
     }
 
-    /**
-     * Open connection
-     */
-    openConnection() {
-        this.peer.on('open', (id: string) => {
-            // Every Peer object is assigned a random, unique ID when it's created.
-            console.log('My peer ID is: ' + id);
+    call(otherUserId: string) {
+        // Initiate a call!
+        var call = this._peer.call(otherUserId, this._localStream);
 
-            // Receive messages
-            this.conn.on('data', (msgData: any) => {
-                console.log('Received', msgData);
-                this.data.emit(msgData);
-            });
-        });
+        this._step3(call);
+    }
 
-        this.peer.on('error', (error) => {
+    endCall() {
+        this._existingCall.close();
+        // this._step2();
+        if (this.onCalling) {
+            this.onCalling();
+        }
+    }
+
+    private _step1() {
+        // Get audio/video stream
+        navigator.getUserMedia({ audio: true, video: true }, (stream) => {
+            // Set your video displays
+            this.myEl.src = URL.createObjectURL(stream);
+
+            this._localStream = stream;
+            // this._step2();
+            if (this.onCalling) {
+                this.onCalling();
+            }
+        }, (error) => { 
             console.log(error);
         });
     }
 
-    /**
-     * Connect to other user
-     */
-    connectTo(otherUserId: string) {
-        this.conn = this.peer.connect(otherUserId);
-    }
+    // private _step2() {
+    //     console.log('Hide Step1, Step3. Show Step2');
+    //     //   $('#_step1, #_step3').hide();
+    //     //   $('#_step2').show();
+    // }
+    
+    private _step3(call) {
+        // Hang up on an existing call if present
+        if (this._existingCall) {
+            this._existingCall.close();
+        }
 
-    /**
-     * Send text message to connected user
-     */
-    sendMessage(message: string) {
-        this.conn.send(message);
-    }
-
-    /**
-     * Make a media call (an audio or/and video) to other user
-     */
-    mediaCall(otherUserId: string, el:HTMLMediaElement) {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        navigator.getUserMedia(this.config.getMediaStreamConstraints(), (stream: any) => {
-            var call = this.peer.call(otherUserId, stream);
-            call.on('stream', (remoteStream: any) => {
-                // Show stream in some audio/video element.
-                el.src = URL.createObjectURL(remoteStream);
-            });
-        }, (error) => {
-            console.log('Failed to get local stream', error);
+        // Wait for stream on the call, then set peer video display
+        call.on('stream', (stream) => {
+            this.otherEl.src = URL.createObjectURL(stream);
         });
-    }
 
-    /**
-     * Answer on media call (an audio or/and video) from other user
-     */
-    mediaAnswer(el:HTMLMediaElement) {
-        this.peer.on('call', (peerCall) => {
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-            navigator.getUserMedia(this.config.getMediaStreamConstraints(), (stream: any) => {
-                peerCall.answer(stream); // Answer the call with an A/V stream.
-                peerCall.on('stream', (remoteStream: any) => {
-                    // Show stream in some audio/video element.
-                el.src = URL.createObjectURL(remoteStream);
-                });
-            }, function(error) {
-                console.log('Failed to get local stream', error);
-            });
+        // UI stuff
+        this._existingCall = call;
+        // $('#their-id').text(call.peer);
+        call.on('close', () => {
+            // this._step2();
+            if (this.onCalling) {
+                this.onCalling();
+            }
         });
+        // $('#_step1, #_step2').hide();
+        // $('#_step3').show();
     }
 }
