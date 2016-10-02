@@ -8,7 +8,7 @@ There is a simple mobile, audio and video chat application based on:
 
 to demonstrate how to combine them together inside the [Ionic 2](http://ionic.io/2) project. 
 
-**Note:** The work in progress!!!
+**Note:** This project is not under development!!!
 
 ### Prerequisite
 
